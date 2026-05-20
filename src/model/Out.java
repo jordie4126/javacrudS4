@@ -1,9 +1,12 @@
 package model;
 
+import java.time.LocalDateTime;
+
 public class Out {
     private int id;
     private int idListOut;
     private int idListInSource;
+    private LocalDateTime dateOut;
     private double quantite;
     private double prixUnitaire;
 
@@ -16,6 +19,8 @@ public class Out {
     public void setIdListOut(int idListOut) { this.idListOut = idListOut; }
     public int getIdListInSource() { return idListInSource; }
     public void setIdListInSource(int idListInSource) { this.idListInSource = idListInSource; }
+    public LocalDateTime getDateOut() { return dateOut; }
+    public void setDateOut(LocalDateTime dateOut) { this.dateOut = dateOut; }
     public double getQuantite() { return quantite; }
     public void setQuantite(double quantite) { this.quantite = quantite; }
     public double getPrixUnitaire() { return prixUnitaire; }
@@ -24,6 +29,6 @@ public class Out {
     @Override
     public String toString() {
         return "Out{id=" + id + ", idListOut=" + idListOut + ", idListInSource=" + idListInSource +
-               ", quantite=" + quantite + ", prixUnitaire=" + prixUnitaire + "}";
+               ", dateOut=" + dateOut + ", quantite=" + quantite + ", prixUnitaire=" + prixUnitaire + "}";
     }
 }

@@ -6,6 +6,9 @@ import service.StockService;
 
 import javax.swing.*;
 import java.awt.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +16,8 @@ import java.util.Map;
  * Panel for managing ListIn entries (grouped stock entries).
  */
 public class ListInPanel extends JPanel {
+
+    private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     private String nomEntite;
     private StockService stockService;
@@ -32,6 +37,11 @@ public class ListInPanel extends JPanel {
         JPanel inputPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
         inputPanel.setBorder(BorderFactory.createTitledBorder("Nouvelle Entree Groupee"));
 
+        inputPanel.add(new JLabel("Date & heure (yyyy-MM-dd HH:mm):"));
+        JTextField txtDateTime = new JTextField(14);
+        txtDateTime.setText(LocalDateTime.now().format(DATE_TIME_FORMAT));
+        inputPanel.add(txtDateTime);
+
         inputPanel.add(new JLabel("Quantite:"));
         JTextField txtQuantite = new JTextField(10);
         inputPanel.add(txtQuantite);
@@ -43,13 +53,19 @@ public class ListInPanel extends JPanel {
         JButton btnAjouter = new JButton("Ajouter ListIn");
         btnAjouter.addActionListener(e -> {
             try {
+                LocalDateTime dateListIn = LocalDateTime.parse(txtDateTime.getText().trim(), DATE_TIME_FORMAT);
                 double q = Double.parseDouble(txtQuantite.getText().trim());
                 double p = Double.parseDouble(txtPrixMoyen.getText().trim());
                 if (q <= 0) throw new IllegalArgumentException("Quantite doit etre positive.");
-                stockService.creerListIn(nomEntite, q, p);
+                stockService.creerListIn(nomEntite, q, p, dateListIn);
+                txtDateTime.setText(LocalDateTime.now().format(DATE_TIME_FORMAT));
                 txtQuantite.setText("");
                 txtPrixMoyen.setText("");
                 refreshTable();
+            } catch (DateTimeParseException ex) {
+                JOptionPane.showMessageDialog(this,
+                        "Date & heure invalide (format: yyyy-MM-dd HH:mm).",
+                        "Validation", JOptionPane.WARNING_MESSAGE);
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(this, "Nombres invalides.", "Validation", JOptionPane.WARNING_MESSAGE);
             } catch (Exception ex) {

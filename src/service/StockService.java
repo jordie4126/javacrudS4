@@ -31,9 +31,9 @@ public class StockService {
     /**
      * Create a ListIn entry. Returns the generated id.
      */
-    public int creerListIn(String nomEntite, double quantite, double prixMoyen) {
+    public int creerListIn(String nomEntite, double quantite, double prixMoyen, LocalDateTime dateListIn) {
         ListIn listIn = new ListIn();
-        listIn.setDateListIn(LocalDateTime.now());
+        listIn.setDateListIn(dateListIn);
         listIn.setQuantiteTotale(quantite);
         listIn.setPrixMoyen(prixMoyen);
         return listInDAO.insert(listIn, nomEntite + "_ListIn");
@@ -49,7 +49,7 @@ public class StockService {
     /**
      * Perform a stock exit using the configured strategy.
      */
-    public void sortie(String nomEntite, double quantite) {
+    public void sortie(String nomEntite, double quantite, LocalDateTime dateListOut) {
         EntiteMeta meta = entiteMetaDAO.findByNom(nomEntite);
         if (meta == null) {
             throw new IllegalArgumentException("Entite non trouvee: " + nomEntite);
@@ -79,7 +79,7 @@ public class StockService {
 
         // Create ListOut
         ListOut listOut = new ListOut();
-        listOut.setDateListOut(LocalDateTime.now());
+        listOut.setDateListOut(dateListOut);
         listOut.setQuantiteTotale(totalQuantite);
         listOut.setPrixMoyenUnitaire(prixMoyenSortie);
         int listOutId = listOutDAO.insert(listOut, nomEntite + "_ListOut");
@@ -87,6 +87,7 @@ public class StockService {
         // Persist each Out
         for (Out out : sorties) {
             out.setIdListOut(listOutId);
+            out.setDateOut(dateListOut);
             outDAO.insert(out, nomEntite + "_Out");
         }
     }

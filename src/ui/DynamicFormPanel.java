@@ -4,6 +4,9 @@ import model.EntiteChamp;
 
 import javax.swing.*;
 import java.awt.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +17,10 @@ import java.util.Map;
  */
 public class DynamicFormPanel extends JPanel {
 
+    private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
     private Map<String, JTextField> fieldMap = new LinkedHashMap<>();
+    private JTextField txtDateTime;
     private JTextField txtQuantite;
     private JTextField txtPrixUnitaire;
     private List<EntiteChamp> champs;
@@ -31,6 +37,15 @@ public class DynamicFormPanel extends JPanel {
         gbc.insets = new Insets(4, 4, 4, 4);
         gbc.fill = GridBagConstraints.HORIZONTAL;
         int row = 0;
+
+        // Common field: dateIn
+        gbc.gridx = 0; gbc.gridy = row; gbc.weightx = 0;
+        add(new JLabel("Date & heure (yyyy-MM-dd HH:mm):"), gbc);
+        gbc.gridx = 1; gbc.weightx = 1.0;
+        txtDateTime = new JTextField(15);
+        txtDateTime.setText(LocalDateTime.now().format(DATE_TIME_FORMAT));
+        add(txtDateTime, gbc);
+        row++;
 
         // Common field: quantite
         gbc.gridx = 0; gbc.gridy = row; gbc.weightx = 0;
@@ -74,9 +89,13 @@ public class DynamicFormPanel extends JPanel {
     public Map<String, Object> readValues() throws IllegalArgumentException {
         double quantite;
         double prixUnitaire;
+        LocalDateTime dateIn;
         try {
+            dateIn = LocalDateTime.parse(txtDateTime.getText().trim(), DATE_TIME_FORMAT);
             quantite = Double.parseDouble(txtQuantite.getText().trim());
             prixUnitaire = Double.parseDouble(txtPrixUnitaire.getText().trim());
+        } catch (DateTimeParseException e) {
+            throw new IllegalArgumentException("Date & heure invalide (format: yyyy-MM-dd HH:mm).");
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("Quantite et Prix Unitaire doivent etre des nombres.");
         }
@@ -84,6 +103,7 @@ public class DynamicFormPanel extends JPanel {
         if (prixUnitaire < 0) throw new IllegalArgumentException("Le prix ne peut pas etre negatif.");
 
         Map<String, Object> data = new LinkedHashMap<>();
+        data.put("dateIn", dateIn);
         data.put("quantite", quantite);
         data.put("prixUnitaire", prixUnitaire);
 
@@ -99,6 +119,14 @@ public class DynamicFormPanel extends JPanel {
         return data;
     }
 
+    public LocalDateTime getDateTime() {
+        try {
+            return LocalDateTime.parse(txtDateTime.getText().trim(), DATE_TIME_FORMAT);
+        } catch (DateTimeParseException e) {
+            throw new IllegalArgumentException("Date & heure invalide (format: yyyy-MM-dd HH:mm).");
+        }
+    }
+
     public double getQuantite() {
         return Double.parseDouble(txtQuantite.getText().trim());
     }
@@ -108,6 +136,7 @@ public class DynamicFormPanel extends JPanel {
     }
 
     public void clearForm() {
+        txtDateTime.setText(LocalDateTime.now().format(DATE_TIME_FORMAT));
         txtQuantite.setText("");
         txtPrixUnitaire.setText("");
         for (JTextField txt : fieldMap.values()) {

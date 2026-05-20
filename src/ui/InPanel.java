@@ -95,7 +95,7 @@ public class InPanel extends JPanel {
             double prixUnitaire = formPanel.getPrixUnitaire();
 
             // Create ListIn
-            int listInId = stockService.creerListIn(nomEntite, quantite, prixUnitaire);
+            int listInId = stockService.creerListIn(nomEntite, quantite, prixUnitaire, formPanel.getDateTime());
             data.put("idListIn", listInId);
 
             // Insert In

@@ -84,6 +84,22 @@ public class DynamicDAO {
     }
 
     /**
+     * Execute a custom SELECT query and return rows as maps.
+     */
+    public List<Map<String, Object>> query(String sql, Object... params) {
+        try (PreparedStatement pstmt = DBConnection.getInstance().getConnection().prepareStatement(sql)) {
+            for (int i = 0; i < params.length; i++) {
+                pstmt.setObject(i + 1, params[i]);
+            }
+            try (ResultSet rs = pstmt.executeQuery()) {
+                return resultSetToList(rs);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erreur SELECT custom: " + sql, e);
+        }
+    }
+
+    /**
      * Delete a row by id.
      */
     public void delete(String tableName, int id) {
