@@ -11,15 +11,12 @@ import java.util.Set;
 
 public class ObjectHydrator {
 
-    /**
-     * Hydrate a single object from the current ResultSet row.
-     */
+   
     public static <T> T hydrate(ResultSet rs, Class<T> clazz) throws SQLException {
         try {
             T instance = clazz.getDeclaredConstructor().newInstance();
             List<Field> allFields = EntityInspector.getAllFields(clazz);
 
-            // Get available columns from ResultSet
             ResultSetMetaData metaData = rs.getMetaData();
             Set<String> columns = new HashSet<>();
             for (int i = 1; i <= metaData.getColumnCount(); i++) {
@@ -40,9 +37,7 @@ public class ObjectHydrator {
         }
     }
 
-    /**
-     * Hydrate a list of objects from a ResultSet.
-     */
+  
     public static <T> List<T> hydrateList(ResultSet rs, Class<T> clazz) throws SQLException {
         List<T> list = new ArrayList<>();
         while (rs.next()) {

@@ -12,7 +12,6 @@ public class Out {
 
     public Out() {}
 
-    // All getters/setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
     public int getIdListOut() { return idListOut; }

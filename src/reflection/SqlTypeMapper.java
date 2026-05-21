@@ -31,9 +31,6 @@ public class SqlTypeMapper {
         return sqlType;
     }
 
-    /**
-     * Convert a Java value to a SQL-compatible representation for PreparedStatement.
-     */
     public static Object toSqlValue(Object value, Class<?> fieldType) {
         if (value == null) return null;
         if (fieldType == LocalDateTime.class) {
@@ -42,9 +39,7 @@ public class SqlTypeMapper {
         return value;
     }
 
-    /**
-     * Convert a SQL ResultSet value back to the expected Java type.
-     */
+    
     public static Object fromSqlValue(Object sqlValue, Class<?> fieldType) {
         if (sqlValue == null) return getDefaultValue(fieldType);
         if (fieldType == LocalDateTime.class && sqlValue instanceof java.sql.Timestamp) {

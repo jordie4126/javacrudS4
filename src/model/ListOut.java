@@ -10,7 +10,6 @@ public class ListOut {
 
     public ListOut() {}
 
-    // All getters/setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
     public LocalDateTime getDateListOut() { return dateListOut; }

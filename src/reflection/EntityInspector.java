@@ -7,9 +7,7 @@ import java.util.List;
 
 public class EntityInspector {
 
-    /**
-     * Get fields annotated with @Champ on the given class (specific fields only).
-     */
+    
     public static List<Field> getChampsSpecifiques(Class<?> clazz) {
         List<Field> champsSpecifiques = new ArrayList<>();
         for (Field f : clazz.getDeclaredFields()) {
@@ -21,10 +19,6 @@ public class EntityInspector {
         return champsSpecifiques;
     }
 
-    /**
-     * Get ALL fields from the class and all its superclasses (up to but excluding Object).
-     * This includes inherited fields like id, idListIn, dateIn, quantite, prixUnitaire.
-     */
     public static List<Field> getAllFields(Class<?> clazz) {
         List<Field> allFields = new ArrayList<>();
         Class<?> current = clazz;
@@ -38,9 +32,7 @@ public class EntityInspector {
         return allFields;
     }
 
-    /**
-     * Get fields that should be used for INSERT (all fields except 'id' which is auto-generated).
-     */
+    
     public static List<Field> getInsertableFields(Class<?> clazz) {
         List<Field> fields = getAllFields(clazz);
         fields.removeIf(f -> f.getName().equals("id"));
@@ -65,9 +57,7 @@ public class EntityInspector {
         }
     }
 
-    /**
-     * Find a field by name across the class hierarchy.
-     */
+    
     public static Field getFieldByName(Class<?> clazz, String name) {
         Class<?> current = clazz;
         while (current != null && current != Object.class) {

@@ -1,14 +1,10 @@
 package model;
 
-/**
- * Represents a dynamic field definition for a user-created entity.
- * Stored in the entite_champs table.
- */
 public class EntiteChamp {
     private int id;
     private String nomEntite;
     private String nomChamp;
-    private String typeJava;   // "String", "int", "double", "boolean"
+    private String typeJava;   
     private String label;
     private int ordre;
 
@@ -35,9 +31,7 @@ public class EntiteChamp {
     public int getOrdre() { return ordre; }
     public void setOrdre(int ordre) { this.ordre = ordre; }
 
-    /**
-     * Returns the SQL type corresponding to this field's Java type.
-     */
+    
     public String getSqlType() {
         switch (typeJava) {
             case "String": return "VARCHAR(255)";
@@ -48,9 +42,7 @@ public class EntiteChamp {
         }
     }
 
-    /**
-     * Convert a string value to the appropriate Java type.
-     */
+    
     public Object convertValue(String value) {
         if (value == null || value.trim().isEmpty()) {
             switch (typeJava) {

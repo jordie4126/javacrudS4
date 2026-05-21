@@ -8,10 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * DAO for dynamic entity data using Map<String, Object> instead of typed objects.
- * Used for the _In tables which have user-defined columns.
- */
+
 public class DynamicDAO {
 
     /**
@@ -53,9 +50,6 @@ public class DynamicDAO {
         }
     }
 
-    /**
-     * Find all rows in a table, returned as list of maps.
-     */
     public List<Map<String, Object>> findAll(String tableName) {
         String sql = "SELECT * FROM " + tableName + " ORDER BY id";
         try (Statement stmt = DBConnection.getInstance().getConnection().createStatement();
@@ -66,9 +60,6 @@ public class DynamicDAO {
         }
     }
 
-    /**
-     * Find rows with a WHERE clause.
-     */
     public List<Map<String, Object>> findWhere(String tableName, String whereClause, Object... params) {
         String sql = "SELECT * FROM " + tableName + " WHERE " + whereClause + " ORDER BY id";
         try (PreparedStatement pstmt = DBConnection.getInstance().getConnection().prepareStatement(sql)) {
@@ -83,9 +74,6 @@ public class DynamicDAO {
         }
     }
 
-    /**
-     * Execute a custom SELECT query and return rows as maps.
-     */
     public List<Map<String, Object>> query(String sql, Object... params) {
         try (PreparedStatement pstmt = DBConnection.getInstance().getConnection().prepareStatement(sql)) {
             for (int i = 0; i < params.length; i++) {
@@ -99,9 +87,6 @@ public class DynamicDAO {
         }
     }
 
-    /**
-     * Delete a row by id.
-     */
     public void delete(String tableName, int id) {
         String sql = "DELETE FROM " + tableName + " WHERE id = ?";
         try (PreparedStatement pstmt = DBConnection.getInstance().getConnection().prepareStatement(sql)) {
