@@ -5,6 +5,7 @@
 /home/itu/Bureau/karl/javacrudS4/src/ui/DynamicFormPanel.java
 /home/itu/Bureau/karl/javacrudS4/src/ui/ListOutPanel.java
 /home/itu/Bureau/karl/javacrudS4/src/ui/MainWindow.java
+/home/itu/Bureau/karl/javacrudS4/src/ui/InRestantPanel.java
 /home/itu/Bureau/karl/javacrudS4/src/ui/DynamicTablePanel.java
 /home/itu/Bureau/karl/javacrudS4/src/ui/ListInPanel.java
 /home/itu/Bureau/karl/javacrudS4/src/ui/InPanel.java

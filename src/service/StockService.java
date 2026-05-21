@@ -119,6 +119,18 @@ public class StockService {
         return dynamicDAO.findAll(nomEntite + "_In");
     }
 
+    public List<Map<String, Object>> getInRestantDetails(String nomEntite) {
+        String sql = "SELECT li.id, li.datelistin, li.quantitetotale, li.prixmoyen, " +
+                "(li.quantitetotale - COALESCE(SUM(o.quantite), 0)) AS quantiterestante, " +
+                "(li.quantitetotale - COALESCE(SUM(o.quantite), 0)) * li.prixmoyen AS valeurglo " +
+                "FROM " + nomEntite + "_ListIn li " +
+                "LEFT JOIN " + nomEntite + "_Out o ON o.idListInSource = li.id " +
+                "GROUP BY li.id, li.datelistin, li.quantitetotale, li.prixmoyen " +
+                "HAVING (li.quantitetotale - COALESCE(SUM(o.quantite), 0)) > 0 " +
+                "ORDER BY li.id";
+        return dynamicDAO.query(sql);
+    }
+
     public void deleteIn(String nomEntite, int id) {
         dynamicDAO.delete(nomEntite + "_In", id);
     }

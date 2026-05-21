@@ -16,6 +16,7 @@ public class EntitePanel extends JPanel {
         tabs.addTab("Liste Entrees (ListIn)", new ListInPanel(nomEntite, stockService));
         tabs.addTab("Sorties (Out)", new OutPanel(nomEntite, stockService));
         tabs.addTab("Liste Sorties (ListOut)", new ListOutPanel(nomEntite, stockService));
+        tabs.addTab("Stock restant", new InRestantPanel(nomEntite, stockService));
         add(tabs, BorderLayout.CENTER);
     }
 }

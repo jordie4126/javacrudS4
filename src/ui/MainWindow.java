@@ -137,11 +137,13 @@ public class MainWindow extends JFrame {
         ListInPanel listInPanel = new ListInPanel(nom, stockService);
         OutPanel outPanel = new OutPanel(nom, stockService);
         ListOutPanel listOutPanel = new ListOutPanel(nom, stockService);
+        InRestantPanel inRestantPanel = new InRestantPanel(nom, stockService);
 
         tabbedPane.addTab("Entrees (In)", inPanel);
         tabbedPane.addTab("Liste Entrees (ListIn)", listInPanel);
         tabbedPane.addTab("Sorties (Out)", outPanel);
         tabbedPane.addTab("Liste Sorties (ListOut)", listOutPanel);
+        tabbedPane.addTab("Stock restant", inRestantPanel);
 
         updateStatus();
         statusLabel.setText("Entite active: " + nom);
